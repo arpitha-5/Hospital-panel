@@ -5,11 +5,6 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -27,9 +22,6 @@ import chatRoutes from './routes/chatRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import managementRoutes from './routes/managementRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
-import supportRoutes from './routes/supportRoutes.js';
-import mediaRoutes from './routes/mediaRoutes.js';
-import serviceRoutes from './routes/serviceRoutes.js';
 
 // Models (for socket handlers)
 import Chat from './models/Chat.js';
@@ -48,15 +40,12 @@ app.set('io', io);
 // ── Middleware ──
 app.use(express.json({ limit: '10mb' }));
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: 'http://localhost:5173',
   credentials: true
 }));
-app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+app.use(helmet());
 app.use(morgan('dev'));
 app.use('/api', apiLimiter);
-
-// ── Static Files ──
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ── Database ──
 connectDB();
@@ -71,9 +60,6 @@ app.use('/api/chats', chatRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/manage', managementRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/support', supportRoutes);
-app.use('/api/media', mediaRoutes);
-app.use('/api/services', serviceRoutes);
 
 // ── Socket.io Real-Time ──
 io.on('connection', (socket) => {
