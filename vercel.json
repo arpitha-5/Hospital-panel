@@ -1,13 +1,5 @@
 {
   "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "https://your-backend-domain.com/api/$1"
-    }
-  ],
-  "env": {
-    "VITE_API_URL": "https://your-backend-domain.com"
-  }
+  "installCommand": "cd frontend && npm install"
 }
