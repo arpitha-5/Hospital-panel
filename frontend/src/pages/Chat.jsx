@@ -28,7 +28,7 @@ const Chat = () => {
     };
     fetchHistory();
 
-    const newSocket = io('http://localhost:5000');
+    const newSocket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
     setSocket(newSocket);
 
     newSocket.emit('join_room', roomId);

@@ -44,7 +44,8 @@ const Media = () => {
     try {
       // Must not use default api interceptor headers since it's multipart
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/media', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${API_URL}/api/media`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -114,7 +115,7 @@ const Media = () => {
             <div key={img._id} className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm group">
               <div className="relative aspect-square bg-gray-100 overflow-hidden">
                 <img 
-                  src={img.url?.startsWith('http') ? img.url : `http://localhost:5000${img.url}`} 
+                  src={img.url?.startsWith('http') ? img.url : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${img.url}`} 
                   alt={img.title} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                   loading="lazy"

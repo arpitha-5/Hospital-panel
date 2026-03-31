@@ -31,7 +31,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchDashboardData();
-    const socket = io('http://localhost:5000');
+    const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
     if (user?.hospitalId) socket.emit('join_room', user.hospitalId);
     socket.on('booking_update', () => fetchDashboardData());
     socket.on('appointment_status_update', () => fetchDashboardData());
